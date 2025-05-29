@@ -1,3 +1,4 @@
+const BlacklistTokenModel = require("../models/blacklist-token-model");
 const User = require("../models/user-model");
 const {
     hashPassword,
@@ -15,7 +16,7 @@ module.exports.registerUser = async (req, res) => {
     const isAlreadyExist = await User.findOne({ email });
     if (isAlreadyExist)
         return res
-            .status(501)
+            .status(409)
             .json({ error: "This email is already registered." });
 
     // console.log("userInfo", fullname, email, password);
@@ -33,13 +34,14 @@ module.exports.registerUser = async (req, res) => {
 
         // generating jwt token
         const token = generateAuthToken(user);
-		res.send("user registered");
-        res.cookies("token", token);
+        res.cookie("token", token);
+		res.status(201).json({success: "user registered successfully"});
     } catch (err) {
         console.log("register user ::", err.message);
         res.status(400).json({ error: "user registeration failed" });
     }
 };
+
 
 module.exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -48,26 +50,37 @@ module.exports.loginUser = async (req, res) => {
         throw new Error("Both fields are required");
     }
 
-    console.log("login info -", email, password);
-
     try {
         const user = await User.findOne({ email });
-		console.log("hashed user -", user);
 
         if (user) {
             const isMatched = await comparePassword(password, user.password);
-			console.log("password match -", isMatched);
             if (isMatched) {
                 const token = generateAuthToken(user);
                 if (token) {
-					res.send("user logged in");
-                    res.cookies("token", token);
+                    res.cookie("token", token);
+					res.status(200).json({success: "logged in successfully"})
                 }
             } else {
-                res.status(501).json({ error: "Email or Password is invalid" });
+                res.status(501).json({ error: "Invalid email or password" });
             }
         }
     } catch (err) {
         console.log("login user ::", err.message);
     }
 };
+
+
+module.exports.logoutUser = async (req, res) => {
+    const token = req.cookies.token || req.headers["authorization"]?.split(' ')[1];
+
+    if(!token) return res.status(401).json({message: "unauthorized"});
+
+    try {
+        const blacklistedToken = await BlacklistTokenModel.create({token});
+        res.clearCookie("token").json({success: "logged out successfully"})
+    } catch (error) {
+        console.log("logoutUser ::", error.message);
+        res.status(401).json({error: "unauthorized"});
+    }
+}

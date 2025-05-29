@@ -9,6 +9,9 @@ connectDB();
 const cors = require("cors");
 app.use(cors()); //cors setup
 
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
 const userRouter = require("./routes/user-routes");
 
 app.use(express.json());
