@@ -3,8 +3,7 @@ const User = require("../models/user-model");
 const hashPassword = require("../utils/HashPassword");
 const comparePassword = require("../utils/ComparePassword");
 const generateAuthToken = require("../utils/GenerateAuthToken");
-const { validationResult } = require("express-validator")
-
+const { validationResult } = require("express-validator");
 
 module.exports.registerUser = async (req, res) => {
     const { fullname, email, password } = req.body;
@@ -15,9 +14,8 @@ module.exports.registerUser = async (req, res) => {
 
     const errors = validationResult(req);
 
-    if(!errors.isEmpty()) {
-
-        return res.status(400).json({errors: errors.array()});
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
 
     const isAlreadyExist = await User.findOne({ email });
@@ -67,12 +65,13 @@ module.exports.loginUser = async (req, res) => {
                     res.cookie("token", token);
                     res.status(200).json({ success: "logged in successfully" });
                 }
-            } else {
-                res.status(501).json({ error: "Invalid email or password" });
             }
+        } else {
+            res.status(501).json({ error: "Invalid email or password" });
         }
     } catch (err) {
         console.log("login user ::", err.message);
+        res.status(501).json({ error: "Invalid email or password" });
     }
 };
 

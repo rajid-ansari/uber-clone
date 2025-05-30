@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 });
 
 router.post("/register", [
-	body(`fullname`).isEmpty().withMessage("First Name is required"),
+	body(`fullname.first`).isLength({min: 3}).withMessage("First Name must be atleast 3 characters long"),
 	body(`email`).isEmail().withMessage("Email is invalid"),
 	body(`password`).isLength({min: 6}).withMessage("Password must be atleast 6 characters long!"),
 ],
