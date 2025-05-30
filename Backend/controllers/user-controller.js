@@ -1,4 +1,4 @@
-const BlacklistTokenModel = require("../models/blacklist-token-model");
+const BlacklistToken = require("../models/blacklist-token-model");
 const User = require("../models/user-model");
 const {
     hashPassword,
@@ -35,13 +35,12 @@ module.exports.registerUser = async (req, res) => {
         // generating jwt token
         const token = generateAuthToken(user);
         res.cookie("token", token);
-		res.status(201).json({success: "user registered successfully"});
+        res.status(201).json({ success: "user registered successfully" });
     } catch (err) {
         console.log("register user ::", err.message);
         res.status(400).json({ error: "user registeration failed" });
     }
 };
-
 
 module.exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
@@ -59,7 +58,7 @@ module.exports.loginUser = async (req, res) => {
                 const token = generateAuthToken(user);
                 if (token) {
                     res.cookie("token", token);
-					res.status(200).json({success: "logged in successfully"})
+                    res.status(200).json({ success: "logged in successfully" });
                 }
             } else {
                 res.status(501).json({ error: "Invalid email or password" });
@@ -70,17 +69,22 @@ module.exports.loginUser = async (req, res) => {
     }
 };
 
-
 module.exports.logoutUser = async (req, res) => {
-    const token = req.cookies.token || req.headers["authorization"]?.split(' ')[1];
+    const token =
+        req.cookies.token || req.headers["authorization"]?.split(" ")[1];
 
-    if(!token) return res.status(401).json({message: "unauthorized"});
+    if (!token) return res.status(401).json({ message: "unauthorized" });
 
     try {
-        const blacklistedToken = await BlacklistTokenModel.create({token});
-        res.clearCookie("token").json({success: "logged out successfully"})
+        const blacklistedToken = await BlacklistToken.create({ token });
+        res.clearCookie("token").json({ success: "logged out successfully" });
     } catch (error) {
         console.log("logoutUser ::", error.message);
-        res.status(401).json({error: "unauthorized"});
+        res.status(401).json({ error: "unauthorized" });
     }
-}
+};
+
+module.exports.userProfile = (req, res) => {
+    const user = req.user;
+    res.send(user);
+};
