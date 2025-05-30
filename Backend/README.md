@@ -97,3 +97,69 @@ http://localhost:3000/
 * All requests and responses use `application/json`.
 * On successful login/registration, a **JWT token** is set in the `token` cookie.
 * If you're calling from the frontend, include `credentials: "include"` in fetch or axios for cookie support.
+
+
+---
+
+## 🚪 User Logout
+
+**Endpoint:**  
+`GET /user/logout`
+
+**Authentication:**  
+Requires a valid JWT token in the `token` cookie or `Authorization` header.
+
+**Success Response:**
+
+```json
+{
+  "success": "logged out successfully"
+}
+```
+
+* **Status:** `200 OK`
+* The `token` cookie will be cleared.
+
+**Error Response:**
+
+* **Status:** `401 Unauthorized`
+
+```json
+{ "error": "unauthorized" }
+```
+
+---
+
+## 👤 User Profile
+
+**Endpoint:**  
+`GET /user/profile`
+
+**Authentication:**  
+Requires a valid JWT token in the `token` cookie or `Authorization` header.
+
+**Success Response:**
+
+```json
+{
+  "_id": "user_id",
+  "fullname": {
+    "first": "John",
+    "last": "Doe"
+  },
+  "email": "john.doe@example.com",
+  "createdAt": "2024-05-30T12:34:56.789Z",
+  "updatedAt": "2024-05-30T12:34:56.789Z",
+  "__v": 0
+}
+```
+
+* **Status:** `200 OK`
+
+**Error Response:**
+
+* **Status:** `401 Unauthorized`
+
+```json
+{ "message": "Unauthorizaed" }
+```
