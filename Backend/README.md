@@ -7,7 +7,7 @@ This backend provides endpoints for **user registration** and **login** with JWT
 ## 🛠️ Base URL
 
 ```
-http://localhost:3000/
+http://localhost:4000/
 ```
 
 ---
@@ -22,11 +22,11 @@ http://localhost:3000/
 ```json
 {
   "fullname": {
-    "first": "John",
-    "last": "Doe"
+    "firstname": "John",     // required, min 3 characters
+    "lastname": "Doe"       // optional, min 3 characters
   },
-  "email": "john.doe@example.com",
-  "password": "yourpassword"
+  "email": "john.doe@example.com",    // required, valid email format
+  "password": "password123"           // required, min 6 characters
 }
 ```
 

@@ -15,8 +15,7 @@ module.exports.authUser = async (req, res, next) => {
     try {
         const decoded = await jwt.verify(token, process.env.JWT_SECRET);
         if (decoded) {
-            const user = User.findOne({ email: decoded.email }).select("-password");
-
+            const user = await User.findOne({ email: decoded.email }).select("-password");
             req.user = user;
             next();
         }

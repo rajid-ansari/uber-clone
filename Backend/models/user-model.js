@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
 			type: String,
 			required: true,
 			trim: true,
-			minLength: [3, "first name doesn't meet minimum length."],
+			minlength: [3, "first name doesn't meet minimum length."],
 		},
 		last: {
 			type: String,
@@ -20,12 +20,17 @@ const userSchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 		trim: true,
+		lowercase: true,
+		match: [ /^\S+@\S+\.\S+$/, 'Please enter a valid email' ]
 	},
 	password: {
 		type: String,
 		required: true,
-		minLength: [6, "Password must be atleast 6 characters long."],
-		// select: false,
+		minlength: [6, "Password must be atleast 6 characters long."],
+	},
+
+	socketId: {
+		type: String,
 	}
 }, { timestamps: true });
 

@@ -1,16 +1,23 @@
 const BlacklistToken = require("../models/blacklist-token-model");
 const User = require("../models/user-model");
-const {
-    hashPassword,
-    comparePassword,
-    generateAuthToken,
-} = require("../utils/user-config");
+const hashPassword = require("../utils/HashPassword");
+const comparePassword = require("../utils/ComparePassword");
+const generateAuthToken = require("../utils/GenerateAuthToken");
+const { validationResult } = require("express-validator")
+
 
 module.exports.registerUser = async (req, res) => {
     const { fullname, email, password } = req.body;
 
     if (!fullname.first || !email || !password) {
         throw new Error("All fields are required.");
+    }
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty()) {
+
+        return res.status(400).json({errors: errors.array()});
     }
 
     const isAlreadyExist = await User.findOne({ email });
