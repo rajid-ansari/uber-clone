@@ -8,16 +8,13 @@ const UserLogin = () => {
     const [userData, setUserData] = useState({});
 
     const handleSubmit = (e) => {
-      e.preventDefault();
-      
-      setUserData({email, password})
+        e.preventDefault();
 
-      console.log(userData);
-
-      setEmail("");
-      setPassword("");
-    }
-
+        setUserData({ email, password });
+        
+        setEmail("");
+        setPassword("");
+    };
 
     return (
         <div className=" px-5 py-6 h-screen w-full flex flex-col justify-between">
@@ -25,8 +22,10 @@ const UserLogin = () => {
 
             <div className="form mt-18">
                 <form onSubmit={handleSubmit}>
-                    <h2 className="font-medium">What's you Email ?</h2>
-                    
+                    <h2 className="font-medium">
+                        What's you Email and Password ?
+                    </h2>
+
                     {/* email */}
                     <Input
                         type={"email"}
@@ -48,16 +47,28 @@ const UserLogin = () => {
                         required
                         className={"mb-3"}
                     />
-                    <button className="w-full py-3 px-4 bg-black text-gray-100 mt-10 rounded-md">Login</button>
+                    <button className="w-full py-3 px-4 bg-black text-gray-100 mt-10 rounded-md">
+                        Login
+                    </button>
                 </form>
-              <p>New here? <Link to={"/signup"} className="text-blue-500 underline mt-5 inline-block">Create New Account</Link> </p>
+                <p className="leading-none">
+                    New here?{" "}
+                    <Link
+                        to={"/signup"}
+                        className="text-blue-500 underline mt-5 inline-block"
+                    >
+                        Create New Account
+                    </Link>{" "}
+                </p>
             </div>
 
             <div className="mt-6">
-
-              <Link 
-              to={"/captain-login"}
-              className="py-3 px-5 flex items-center justify-center bg-green-400 rounded-md w-full mt-12">Login as Captain</Link>
+                <Link
+                    to={"/captain-login"}
+                    className="py-3 px-5 flex items-center justify-center bg-[#FA9934]  rounded-md w-full mt-12"
+                >
+                    Login as Captain
+                </Link>
             </div>
         </div>
     );
