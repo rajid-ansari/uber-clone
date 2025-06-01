@@ -8,6 +8,7 @@ const Home = () => {
 				id="hero"
                 className="h-3/4 w-full bg-[url('./assets/uber_home.png')] bg-center bg-cover"
             >
+                {/* uber logo */}
 				<h1 className="pl-4 pt-5 text-2xl font-semibold">Uber</h1>
 			</div>
             <div className="h-1/4 w-full bg-white">
