@@ -1,22 +1,55 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
+import axios from "axios";
+import { UserContext } from "../contexts/UserContext";
+import { useNavigate } from "react-router-dom";
 
 const UserSignup = () => {
-  
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    // empty the fields
-  }
+    const navigate = useNavigate();
+    const { user, setUser } = useContext(UserContext);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const newUser = {
+            fullname: {
+                first: firstName,
+                last: lastName,
+            },
+            email,
+            password,
+        };
+
+        const response = await axios.post(
+            `${import.meta.env.VITE_BASE_URL}/user/register`,
+            newUser
+        );
+        // const data = await response.json();
+
+        if (response.status === 201) {
+            setUser(response.data.data);
+            navigate("/dashboard");
+
+            // empty the fields
+            setFirstName("");
+            setLastName("");
+            setEmail("");
+            setPassword("");
+        }
+    };
 
     return (
         <div className=" px-5 py-6 h-screen w-full flex flex-col justify-between">
             <h1 className="text-2xl font-semibold fixed">Uber</h1>
 
             <div className="form mt-18">
-                <form onSubmit={handleSubmit}
-                className="font-serif">
+                <form onSubmit={handleSubmit} className="font-serif">
                     <h2 className="font-medium">What's you Name ?</h2>
 
                     {/* fullname */}
@@ -25,8 +58,8 @@ const UserSignup = () => {
                         <Input
                             type={"text"}
                             placeholder={"First Name"}
-                            // value={}
-                            // setValue={}
+                            value={firstName}
+                            setValue={setFirstName}
                             name={"firstName"}
                             required
                             className={"mb-3 max-w-1/2"}
@@ -36,8 +69,8 @@ const UserSignup = () => {
                         <Input
                             type={"text"}
                             placeholder={"Last Name"}
-                            // value={password}
-                            // setValue={setPassword}
+                            value={lastName}
+                            setValue={setLastName}
                             name={"lastName"}
                             className={"mb-3 max-w-1/2"}
                         />
@@ -45,12 +78,12 @@ const UserSignup = () => {
 
                     {/* email */}
                     <div>
-                    <p>What's Your Email and Password ?</p>
-                      <Input
+                        <p>What's Your Email and Password ?</p>
+                        <Input
                             type={"email"}
                             placeholder={"example@gmail.com"}
-                            // value={}
-                            // setValue={}
+                            value={email}
+                            setValue={setEmail}
                             name={"email"}
                             required
                             className={"mb-3"}
@@ -58,8 +91,8 @@ const UserSignup = () => {
                         <Input
                             type={"password"}
                             placeholder={"Enter Password"}
-                            // value={}
-                            // setValue={}
+                            value={password}
+                            setValue={setPassword}
                             name={"password"}
                             required
                             className={"mb-3"}
@@ -80,15 +113,6 @@ const UserSignup = () => {
                     </Link>{" "}
                 </p>
             </div>
-
-            {/* <div className="mt-6">
-                <Link
-                    to={"/captain-signup"}
-                    className="py-3 px-5 flex items-center justify-center bg-[#FA9934]  rounded-md w-full mt-12"
-                >
-                    Join as Captain
-                </Link>
-            </div> */}
         </div>
     );
 };

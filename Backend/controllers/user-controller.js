@@ -40,7 +40,7 @@ module.exports.registerUser = async (req, res) => {
         // generating jwt token
         const token = generateAuthToken(user);
         res.cookie("token", token);
-        res.status(201).json({ success: "user registered successfully" });
+        res.status(201).json({ data: user });
     } catch (err) {
         console.log("register user ::", err.message);
         res.status(400).json({ error: "user registeration failed" });
@@ -63,7 +63,7 @@ module.exports.loginUser = async (req, res) => {
                 const token = generateAuthToken(user);
                 if (token) {
                     res.cookie("token", token);
-                    res.status(200).json({ success: "logged in successfully" });
+                    res.status(200).json({ data: user });
                 }
             }
         } else {

@@ -22,8 +22,8 @@ http://localhost:4000/
 ```json
 {
   "fullname": {
-    "firstname": "John",     // required, min 3 characters
-    "lastname": "Doe"       // optional, min 3 characters
+    "first": "John",     // required, min 3 characters
+    "last": "Doe"       // optional, min 3 characters
   },
   "email": "john.doe@example.com",    // required, valid email format
   "password": "password123"           // required, min 6 characters
@@ -38,7 +38,7 @@ http://localhost:4000/
 }
 ```
 
-* **Status:** `200 OK`
+* **Status:** `201 CREATED`
 * **Cookie:** `token` (JWT token)
 
 **Error Responses:**

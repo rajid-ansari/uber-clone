@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Input from "../components/Input";
 
 const CaptainSignup = () => {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [vehicleType, setVehicleType] = useState("");
+    const [vehicleNumber, setVehicleNumber] = useState("");
+    const [vehicleCapacity, setVehicleCapacity] = useState("");
+    const [vehicleColor, setVehicleColor] = useState("");
+    const [captainData, setCaptainData] = useState({});
+    
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // empty all fields
+        setCaptainData({
+            fullname: {
+                first: firstName,
+                last: lastName,
+            },
+            email,
+            password,
+            vehicle: {
+                vehicleType,
+                vehicleNumber,
+                vehicleCapacity,
+                color: vehicleColor
+            }
+        });
+
+        // empty the fields
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setPassword("");
+        setVehicleType("")
+        setVehicleNumber("")
+        setVehicleCapacity(null);
+        setVehicleColor("")
     };
 
     return (

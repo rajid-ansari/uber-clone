@@ -64,15 +64,6 @@ const CaptainLogin = () => {
                     </Link>{" "}
                 </p>
             </div>
-
-            {/* <div className="mt-6">
-                <Link
-                    to={"/login"}
-                    className="py-3 px-5 flex items-center justify-center bg-[#DE8F7D] rounded-md w-full mt-12"
-                >
-                    Login as User
-                </Link>
-            </div> */}
         </div>
     );
 };
