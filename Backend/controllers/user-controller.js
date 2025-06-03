@@ -39,8 +39,11 @@ module.exports.registerUser = async (req, res) => {
 
         // generating jwt token
         const token = generateAuthToken(user);
-        res.cookie("token", token);
-        res.status(201).json({ data: user });
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+        });
+        res.status(201).json({ message: "User registered successfully", data: user, token });
     } catch (err) {
         console.log("register user ::", err.message);
         res.status(400).json({ error: "user registeration failed" });
@@ -62,8 +65,11 @@ module.exports.loginUser = async (req, res) => {
             if (isMatched) {
                 const token = generateAuthToken(user);
                 if (token) {
-                    res.cookie("token", token);
-                    res.status(200).json({ data: user });
+                    res.cookie("token", token, {
+                        httpOnly: true,
+                        secure: true,
+                    });
+                    res.status(200).json({ message: "Logged in successfully", data: user, token });
                 }
             }
         } else {
@@ -83,7 +89,7 @@ module.exports.logoutUser = async (req, res) => {
 
     try {
         const blacklistedToken = await BlacklistToken.create({ token });
-        res.clearCookie("token").json({ success: "logged out successfully" });
+        res.clearCookie("token").status(200).json({ success: "logged out successfully" });
     } catch (error) {
         console.log("logoutUser ::", error.message);
         res.status(401).json({ error: "unauthorized" });

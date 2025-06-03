@@ -22,16 +22,18 @@ const UserLogin = () => {
 
         const response = await axios.post(
             `${import.meta.env.VITE_BASE_URL}/user/login`,
-            userInfo
+            userInfo,
+            {withCredentials: true}
         );
 
         if (response.status === 200) {
             setUser(response.data.data);
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.data));
             navigate("/dashboard");
 
             setEmail("");
             setPassword("");
-            // console.log(user.email);
         }
     };
 

@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
 const Captain = require("../models/captain-model");
-const BlacklistTokenModel = require("../models/blacklist-token-model")
+const BlacklistTokenModel = require("../models/blacklist-token-model");
 const hashPassword = require("../utils/HashPassword");
 const comparePassword = require("../utils/ComparePassword");
 const generateAuthToken = require("../utils/GenerateAuthToken");
@@ -43,9 +43,14 @@ module.exports.registerCaptain = async (req, res) => {
         if (captain) {
             const token = generateAuthToken(captain);
             if (token) {
-                res.cookie("token", token);
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    secure: true,
+                });
                 res.status(201).json({
-                    message: "captain created successfully",
+                    message: "captain registered successfully",
+                    data: captain,
+                    token,
                 });
             }
         }
@@ -73,9 +78,15 @@ module.exports.loginCaptain = async (req, res) => {
         const isMatched = await comparePassword(password, captain.password);
         if (isMatched) {
             const token = generateAuthToken(captain);
-            res.cookie("token", token);
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: true,
+            });
+            
             res.status(200).json({
                 message: "captain logged in successfully",
+                data: captain,
+                token,
             });
         } else {
             res.status(401).json({ error: "Invalid email or password" });
@@ -104,4 +115,4 @@ module.exports.logoutCaptain = async (req, res) => {
 module.exports.getCaptainProfile = async (req, res) => {
     const captain = req.captain;
     res.send(captain);
-}
+};

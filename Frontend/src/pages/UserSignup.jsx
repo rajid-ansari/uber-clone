@@ -28,12 +28,14 @@ const UserSignup = () => {
 
         const response = await axios.post(
             `${import.meta.env.VITE_BASE_URL}/user/register`,
-            newUser
+            newUser,
+            {withCredentials: true}
         );
-        // const data = await response.json();
 
         if (response.status === 201) {
             setUser(response.data.data);
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem("user", JSON.stringify(response.data.data));
             navigate("/dashboard");
 
             // empty the fields

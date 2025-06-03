@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Input from "../components/Input";
+import axios from "axios";
+import { CaptainContext } from "../contexts/CaptainContext";
 
 const CaptainSignup = () => {
     const [firstName, setFirstName] = useState("");
@@ -11,13 +13,15 @@ const CaptainSignup = () => {
     const [vehicleNumber, setVehicleNumber] = useState("");
     const [vehicleCapacity, setVehicleCapacity] = useState("");
     const [vehicleColor, setVehicleColor] = useState("");
-    const [captainData, setCaptainData] = useState({});
-    
 
-    const handleSubmit = (e) => {
+    const navigate = useNavigate();
+
+    const { setCaptain } = useContext(CaptainContext);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        setCaptainData({
+        const newCaptain = {
             fullname: {
                 first: firstName,
                 last: lastName,
@@ -28,19 +32,38 @@ const CaptainSignup = () => {
                 vehicleType,
                 vehicleNumber,
                 vehicleCapacity,
-                color: vehicleColor
-            }
-        });
+                color: vehicleColor,
+            },
+        };
 
-        // empty the fields
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setPassword("");
-        setVehicleType("")
-        setVehicleNumber("")
-        setVehicleCapacity(null);
-        setVehicleColor("")
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_BASE_URL}/captain/register`,
+                newCaptain,
+                { withCredentials: true }
+            );
+
+            if (response.status === 201) {
+                setCaptain(response.data.data);
+
+                localStorage.setItem("captain", JSON.stringify(response.data.data));
+                localStorage.setItem("cptoken", response.data.token);
+
+                navigate("/cpt-dashboard");
+            }
+
+            // empty the fields
+            setFirstName("");
+            setLastName("");
+            setEmail("");
+            setPassword("");
+            setVehicleType("");
+            setVehicleNumber("");
+            setVehicleCapacity("");
+            setVehicleColor("");
+        } catch (error) {
+            console.log(error.message);
+        }
     };
 
     return (
@@ -60,8 +83,8 @@ const CaptainSignup = () => {
                         <Input
                             type={"text"}
                             placeholder={"First Name"}
-                            // value={}
-                            // setValue={}
+                            value={firstName}
+                            setValue={setFirstName}
                             name={"firstName"}
                             required
                             className={"mb-3 max-w-1/2"}
@@ -71,8 +94,8 @@ const CaptainSignup = () => {
                         <Input
                             type={"text"}
                             placeholder={"Last Name"}
-                            // value={password}
-                            // setValue={setPassword}
+                            value={lastName}
+                            setValue={setLastName}
                             name={"lastName"}
                             className={"mb-3 max-w-1/2"}
                         />
@@ -86,8 +109,8 @@ const CaptainSignup = () => {
                         <Input
                             type={"email"}
                             placeholder={"example@gmail.com"}
-                            // value={}
-                            // setValue={}
+                            value={email}
+                            setValue={setEmail}
                             name={"email"}
                             required
                             className={"mb-3"}
@@ -95,8 +118,8 @@ const CaptainSignup = () => {
                         <Input
                             type={"password"}
                             placeholder={"Enter Password"}
-                            // value={}
-                            // setValue={}
+                            value={password}
+                            setValue={setPassword}
                             name={"password"}
                             required
                             className={"mb-3"}
@@ -111,7 +134,8 @@ const CaptainSignup = () => {
                             <p className="">Choose Vehicle type -</p>
                             <select
                                 name="vehicleType"
-                                id=""
+                                value={vehicleType}
+                                onChange={(e) => setVehicleType(e.target.value)}
                                 className="border-[1px] border-gray-300 w-1/3 rounded px-6"
                             >
                                 <option value="Car">Car</option>
@@ -124,8 +148,8 @@ const CaptainSignup = () => {
                         <Input
                             type={"text"}
                             placeholder={"Enter Vehicle Number"}
-                            // value={}
-                            // setValue={}
+                            value={vehicleNumber}
+                            setValue={setVehicleNumber}
                             name={"vehicleNumber"}
                             required
                             className={"mb-3"}
@@ -134,10 +158,10 @@ const CaptainSignup = () => {
                         {/* vehicle capacity and color */}
                         <div className="flex gap-1">
                             <Input
-                                type={"Number"}
+                                type={"number"}
                                 placeholder={"Vehicle capacity"}
-                                // value={}
-                                // setValue={}
+                                value={vehicleCapacity}
+                                setValue={setVehicleCapacity}
                                 name={"vehicleCapacity"}
                                 required
                                 className={"mb-3 max-w-1/2"}
@@ -145,8 +169,8 @@ const CaptainSignup = () => {
                             <Input
                                 type={"text"}
                                 placeholder={"Vehicle Color"}
-                                // value={}
-                                // setValue={}
+                                value={vehicleColor}
+                                setValue={setVehicleColor}
                                 name={"vehicleColor"}
                                 required
                                 className={"mb-3 max-w-1/2"}
@@ -168,15 +192,6 @@ const CaptainSignup = () => {
                     </Link>
                 </p>
             </div>
-
-            {/* <div className="mt-6">
-                <Link
-                    to={"/captain-signup"}
-                    className="py-3 px-5 flex items-center justify-center bg-[#FA9934]  rounded-md w-full mt-12"
-                >
-                    Join as Captain
-                </Link>
-            </div> */}
         </div>
     );
 };
