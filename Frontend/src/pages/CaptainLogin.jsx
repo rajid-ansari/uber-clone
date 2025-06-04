@@ -31,7 +31,7 @@ const CaptainLogin = () => {
 
             localStorage.setItem("captain", JSON.stringify(response.data.data));
             localStorage.setItem("cptoken", response.data.token);
-            navigate("/cpt-dashboard");
+            navigate("/captain/dashboard");
         }
 
         setEmail("");
@@ -79,7 +79,7 @@ const CaptainLogin = () => {
                 <p className="leading-none">
                     New here?{" "}
                     <Link
-                        to={"/captain-signup"}
+                        to={"/captain/signup"}
                         className="text-blue-500 underline mt-5 inline-block"
                     >
                         Join as Captain

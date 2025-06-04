@@ -49,7 +49,7 @@ const CaptainSignup = () => {
                 localStorage.setItem("captain", JSON.stringify(response.data.data));
                 localStorage.setItem("cptoken", response.data.token);
 
-                navigate("/cpt-dashboard");
+                navigate("/captain/dashboard");
             }
 
             // empty the fields
@@ -185,7 +185,7 @@ const CaptainSignup = () => {
                 <p className="leading-none">
                     Already registered captain?{" "}
                     <Link
-                        to={"/captain-login"}
+                        to={"/captain/login"}
                         className="text-blue-500 underline mt-5 inline-block"
                     >
                         Login Account

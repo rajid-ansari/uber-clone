@@ -30,7 +30,7 @@ const UserLogin = () => {
             setUser(response.data.data);
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.data));
-            navigate("/dashboard");
+            navigate("/user/dashboard");
 
             setEmail("");
             setPassword("");
@@ -75,7 +75,7 @@ const UserLogin = () => {
                 <p className="leading-none">
                     New here?{" "}
                     <Link
-                        to={"/signup"}
+                        to={"/user/signup"}
                         className="text-blue-500 underline mt-5 inline-block"
                     >
                         Create New Account
@@ -85,7 +85,7 @@ const UserLogin = () => {
 
             <div className="mt-6">
                 <Link
-                    to={"/captain-login"}
+                    to={"/captain/login"}
                     className="py-3 px-5 flex items-center justify-center bg-[#FA9934]  rounded-md w-full mt-12"
                 >
                     Login as Captain

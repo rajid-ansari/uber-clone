@@ -11,7 +11,7 @@ const UserProtectedRoute = ({ children }) => {
     useEffect(() => {
         if (!token) {
             localStorage.removeItem("user");
-            navigate("/login");
+            navigate("/user/login");
         } else {
 
             axios.get(`${import.meta.env.VITE_BASE_URL}/user/profile`, {
@@ -26,7 +26,7 @@ const UserProtectedRoute = ({ children }) => {
             })
             .catch((err) => {
                 console.log(err.message);
-                navigate("/login")
+                navigate("/user/login")
             })
 
         }

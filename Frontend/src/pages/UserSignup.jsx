@@ -36,7 +36,7 @@ const UserSignup = () => {
             setUser(response.data.data);
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("user", JSON.stringify(response.data.data));
-            navigate("/dashboard");
+            navigate("/user/dashboard");
 
             // empty the fields
             setFirstName("");
@@ -108,7 +108,7 @@ const UserSignup = () => {
                 <p className="leading-none">
                     Already registered?{" "}
                     <Link
-                        to={"/login"}
+                        to={"/user/login"}
                         className="text-blue-500 underline mt-5 inline-block"
                     >
                         Login Account

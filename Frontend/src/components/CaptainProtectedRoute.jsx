@@ -12,7 +12,7 @@ const CaptainProtectedRoute = ({ children }) => {
     const cptoken = localStorage.getItem("cptoken");
     useEffect(() => {
         if (!cptoken) {
-            navigate("/captain-login");
+            navigate("/captain/login");
             localStorage.removeItem("captain");
         } else {
             axios
@@ -28,7 +28,7 @@ const CaptainProtectedRoute = ({ children }) => {
                 })
                 .catch((err) => {
                     console.log(err.message);
-                    navigate("/captain-login");
+                    navigate("/captain/login");
                 });
         }
     }, [navigate]);

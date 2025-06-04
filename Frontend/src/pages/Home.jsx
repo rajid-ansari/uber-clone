@@ -14,7 +14,7 @@ const Home = () => {
             <div className="h-1/4 w-full bg-white">
                 <div className="py-7 ">
                     <h2 className="text-xl py-1 text-center">Get Started with Uber.</h2>
-                    <Link to={"/login"} className="flex lg:inline mt-2 lg:px-5 items-center justify-between font-semibold py-3 leading-none pl-28 pr-3 mx-10 text-white bg-black active:bg-black/80 rounded">
+                    <Link to={"/user/login"} className="flex lg:inline mt-2 lg:px-5 items-center justify-between font-semibold py-3 leading-none pl-28 pr-3 mx-10 text-white bg-black active:bg-black/80 rounded">
                         Continue
 						<span className="font-bold text-xl leading-none">→</span>
                     </Link>

@@ -16,12 +16,12 @@ const App = () => {
         <div>
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/login" element={<UserLogin />} />
-                <Route path="/signup" element={<UserSignup />} />
-                <Route path="/captain-login" element={<CaptainLogin />} />
-                <Route path="/captain-signup" element={<CaptainSignup />} />
+                <Route path="/user/login" element={<UserLogin />} />
+                <Route path="/user/signup" element={<UserSignup />} />
+                <Route path="/captain/login" element={<CaptainLogin />} />
+                <Route path="/captain/signup" element={<CaptainSignup />} />
                 <Route
-                    path="/dashboard"
+                    path="/user/dashboard"
                     element={
                         <UserProtectedRoute>
                             <Dashboard />
@@ -37,7 +37,7 @@ const App = () => {
                     }
                 />
                 <Route
-                    path="/cpt-dashboard"
+                    path="/captain/dashboard"
                     element={
                         <CaptainProtectedRoute>
                             <CptDashboard />
